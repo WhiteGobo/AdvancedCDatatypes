@@ -1,4 +1,4 @@
-set(testsuffix "AdvancedCDatatype::Decimal::")
+set(testsuffix "AdvancedCDatatypes::Decimal::")
 
 
 foreach(x RANGE 13)
@@ -7,7 +7,7 @@ foreach(x RANGE 13)
 		"test${x}.c"
 	)
 	target_link_libraries(${exename}
-		AdvancedCDatatype
+		AdvancedCDatatypes
 	)
 
 	add_test(NAME "${testsuffix}add${x}" COMMAND ${exename})
@@ -18,7 +18,7 @@ add_executable(test_decimal_reprint
 	test_decimal_reprint.c
 )
 target_link_libraries(test_decimal_reprint
-	AdvancedCDatatype
+	AdvancedCDatatypes
 	ACDGetCurrentTimezone
 )
 set(index 0)

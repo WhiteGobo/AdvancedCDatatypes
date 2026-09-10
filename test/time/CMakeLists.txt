@@ -1,4 +1,4 @@
-set(testsuffix "AdvancedCDatatype::Time::")
+set(testsuffix "AdvancedCDatatypes::Time::")
 
 
 foreach(x RANGE 33)
@@ -7,7 +7,7 @@ foreach(x RANGE 33)
 		"test${x}.c"
 	)
 	target_link_libraries(${exename}
-		AdvancedCDatatype
+		AdvancedCDatatypes
 		ACDGetCurrentTimezone
 	)
 
@@ -18,7 +18,7 @@ add_executable(test_Datatype_Duration_reprint
 	test_duration_reprint.c
 )
 target_link_libraries(test_Datatype_Duration_reprint
-	AdvancedCDatatype
+	AdvancedCDatatypes
 	ACDGetCurrentTimezone
 )
 set(index 0)
@@ -41,7 +41,7 @@ add_executable(test_Datatype_DateTime_reprint
 	test_datetime_reprint.c
 )
 target_link_libraries(test_Datatype_DateTime_reprint
-	AdvancedCDatatype
+	AdvancedCDatatypes
 	ACDGetCurrentTimezone
 )
 set(index 6)
@@ -63,7 +63,7 @@ add_executable(test_Datatype_Date_reprint
 	test_date_reprint.c
 )
 target_link_libraries(test_Datatype_Date_reprint
-	AdvancedCDatatype
+	AdvancedCDatatypes
 	ACDGetCurrentTimezone
 )
 set(index 0)
@@ -84,7 +84,7 @@ add_executable(test_Datatype_Time_reprint
 	test_time_reprint.c
 )
 target_link_libraries(test_Datatype_Time_reprint
-	AdvancedCDatatype
+	AdvancedCDatatypes
 	ACDGetCurrentTimezone
 )
 set(index 0)
