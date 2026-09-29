@@ -55,6 +55,7 @@ Quotient Quotient_new(int64_t numerator, int64_t denominator);
 Decimal Quotient_try_to_decimal(Quotient);
 double Quotient_to_float(Quotient);
 Quotient Quotient_div(Quotient, Quotient);
+Quotient Quotient_add(Quotient, Quotient);
 Quotient Quotient_inv(Quotient);
 Quotient Quotient_neg(Quotient);
 Quotient Quotient_mult(Quotient, Quotient);
@@ -73,6 +74,8 @@ Number Number_div(Number, Number);
 Number Number_inv(Number);
 Number Number_neg(Number);
 Number Number_mult(Number, Number);
+Number Number_add(Number, Number);
+Number Number_sub(Number, Number);
 
 /*
  * Following rule for result. See `https://www.w3.org/TR/xpath-functions/#func-numeric-integer-divide`_

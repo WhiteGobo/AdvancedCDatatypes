@@ -3,6 +3,17 @@
 static int64_t find_gcd(int64_t a, int64_t b);
 static Quotient Quotient_normalize(Quotient);
 
+
+Quotient Quotient_add(Quotient x, Quotient y){
+	int64_t qx, qy, lcm, tmp, gcd;
+	gcd = find_gcd(x.denominator, y.denominator);
+	lcm = x.denominator * (y.denominator / gcd);
+	qx = x.numerator * (y.denominator / gcd);
+	qy = y.numerator * (x.denominator / gcd);
+	tmp = qx + qy;
+	return Quotient_new(tmp, lcm);
+}
+
 Quotient Quotient_new(int64_t numerator, int64_t denominator){
 	Quotient ret;
 	ret.numerator = numerator;

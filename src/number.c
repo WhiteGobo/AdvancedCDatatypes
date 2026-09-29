@@ -48,6 +48,45 @@ Number Number_from_float(double x){
 	return ret;
 }
 
+Number Number_add(Number x, Number y){
+	Number ret;
+	Quotient qx, qy;
+	Decimal tmpd;
+	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
+		ret.type = NT_FLOAT;
+		ret.f = Number_as_float(x) + Number_as_float(y);
+		return ret;
+	}
+	switch (x.type){
+		case NT_DECIMAL:
+			qx = Decimal_as_quotient(x.d);
+			break;
+		case NT_QUOTIENT:
+			qx = x.q;
+			break;
+	}
+	switch (y.type){
+		case NT_DECIMAL:
+			qy = Decimal_as_quotient(y.d);
+			break;
+		case NT_QUOTIENT:
+			qy = y.q;
+			break;
+	}
+	ret.type = NT_QUOTIENT;
+	ret.q = Quotient_add(qx, qy);
+	tmpd = Quotient_try_to_decimal(ret.q);
+	if (Decimal_not_equal(tmpd, DECIMAL_NAN)){
+		ret.type = NT_DECIMAL;
+		ret.d = tmpd;
+	}
+	return ret;
+}
+Number Number_sub(Number x, Number y){
+	y = Number_neg(y);
+	return Number_add(x, y);
+}
+
 Number Number_div(Number x, Number y){
 	Number ret;
 	Quotient qx, qy;
@@ -85,9 +124,6 @@ Number Number_div(Number x, Number y){
 
 /*
 Number Number_inv(Number){
-}
-
-Number Number_neg(Number){
 }
 
 Number Number_mult(Number, Number){
