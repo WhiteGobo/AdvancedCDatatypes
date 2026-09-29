@@ -71,6 +71,7 @@ double Number_as_float(Number);
 Number Number_new_quotient(int64_t numerator, int64_t denominator);
 Number Number_from_decimal(Decimal);
 Number Number_from_float(double);
+Number Number_from_int(int64_t);
 Number Number_div(Number, Number);
 Number Number_inv(Number);
 Number Number_neg(Number);

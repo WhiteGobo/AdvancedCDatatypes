@@ -46,6 +46,10 @@ Number Number_from_float(double x){
 	return ret;
 }
 
+Number Number_from_int(int64_t x){
+	return Number_from_decimal(Decimal_from_int(x));
+}
+
 Number Number_add(Number x, Number y){
 	Number ret;
 	Quotient qx, qy;
