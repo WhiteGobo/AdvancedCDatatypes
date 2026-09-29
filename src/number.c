@@ -36,8 +36,6 @@ Number Number_from_decimal(Decimal decimal){
 	ret.type = NT_DECIMAL;
 	ret.d = decimal;
 	char*q = Decimal_serialize(decimal);
-	fprintf(stderr, "brubru  %s\n", q);
-	fprintf_Number(stderr, ret);
 	return ret;
 }
 
@@ -82,9 +80,45 @@ Number Number_add(Number x, Number y){
 	}
 	return ret;
 }
+
 Number Number_sub(Number x, Number y){
 	y = Number_neg(y);
 	return Number_add(x, y);
+}
+
+Number Number_mult(Number x, Number y){
+	Number ret;
+	Quotient qx, qy;
+	Decimal tmpd;
+	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
+		ret.type = NT_FLOAT;
+		ret.f = Number_as_float(x) * Number_as_float(y);
+		return ret;
+	}
+	switch (x.type){
+		case NT_DECIMAL:
+			qx = Decimal_as_quotient(x.d);
+			break;
+		case NT_QUOTIENT:
+			qx = x.q;
+			break;
+	}
+	switch (y.type){
+		case NT_DECIMAL:
+			qy = Decimal_as_quotient(y.d);
+			break;
+		case NT_QUOTIENT:
+			qy = y.q;
+			break;
+	}
+	ret.type = NT_QUOTIENT;
+	ret.q = Quotient_mult(qx, qy);
+	tmpd = Quotient_try_to_decimal(ret.q);
+	if (Decimal_not_equal(tmpd, DECIMAL_NAN)){
+		ret.type = NT_DECIMAL;
+		ret.d = tmpd;
+	}
+	return ret;
 }
 
 Number Number_div(Number x, Number y){
@@ -126,8 +160,6 @@ Number Number_div(Number x, Number y){
 Number Number_inv(Number){
 }
 
-Number Number_mult(Number, Number){
-}
 */
 
 
@@ -161,6 +193,49 @@ bool Number_equal(Number x, Number y){
 		return Decimal_equal(tmpd, y.d);
 	}
 	return false;
+}
+
+bool Number_less_or_equal(Number left, Number right){
+	if (Number_equal(left, right)){
+		return true;
+	}
+	return Number_less(left, right);
+}
+
+bool Number_greater(Number left, Number right){
+	if (Number_equal(left, right)){
+		return false;
+	}
+	return !Number_less(left, right);
+}
+
+bool Number_greater_or_equal(Number left, Number right){
+	return !Number_less(left, right);
+}
+
+bool Number_less(Number x, Number y){
+	Quotient qx, qy;
+	Decimal tmpd;
+	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
+		return Number_as_float(x) < Number_as_float(y);
+	}
+	switch (x.type){
+		case NT_DECIMAL:
+			qx = Decimal_as_quotient(x.d);
+			break;
+		case NT_QUOTIENT:
+			qx = x.q;
+			break;
+	}
+	switch (y.type){
+		case NT_DECIMAL:
+			qy = Decimal_as_quotient(y.d);
+			break;
+		case NT_QUOTIENT:
+			qy = y.q;
+			break;
+	}
+	return Quotient_less(qx, qy);
 }
 
 bool Number_not_equal(Number x, Number y){

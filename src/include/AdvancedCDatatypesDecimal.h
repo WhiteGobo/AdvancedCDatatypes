@@ -64,6 +64,7 @@ int Quotient_idiv(Quotient, Quotient);
 
 bool Quotient_equal(Quotient, Quotient);
 bool Quotient_not_equal(Quotient, Quotient);
+bool Quotient_less(Quotient, Quotient);
 
 Decimal Number_truncate(Number, int64_t exponent_cut);
 double Number_as_float(Number);

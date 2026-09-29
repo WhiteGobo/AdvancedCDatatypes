@@ -1,7 +1,7 @@
 set(testsuffix "AdvancedCDatatypes::Decimal::")
 
 
-foreach(x RANGE 17)
+foreach(x RANGE 19)
 	set(exename "test_Datatype_Decimal_add${x}")
 	add_executable(${exename}
 		"test${x}.c"

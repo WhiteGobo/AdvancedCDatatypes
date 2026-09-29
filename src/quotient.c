@@ -13,6 +13,13 @@ Quotient Quotient_add(Quotient x, Quotient y){
 	tmp = qx + qy;
 	return Quotient_new(tmp, lcm);
 }
+bool Quotient_less(Quotient x, Quotient y){
+	int64_t qx, qy, gcd;
+	gcd = find_gcd(x.denominator, y.denominator);
+	qx = x.numerator * (y.denominator / gcd);
+	qy = y.numerator * (x.denominator / gcd);
+	return qx < qy;
+}
 
 Quotient Quotient_new(int64_t numerator, int64_t denominator){
 	Quotient ret;
