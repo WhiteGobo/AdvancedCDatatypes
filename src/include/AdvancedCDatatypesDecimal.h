@@ -1,4 +1,11 @@
 #pragma once
+
+/*
+ *
+ * TODO: Rename Number to Numeric
+ */
+
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -51,6 +58,8 @@ Quotient Quotient_div(Quotient, Quotient);
 Quotient Quotient_inv(Quotient);
 Quotient Quotient_neg(Quotient);
 Quotient Quotient_mult(Quotient, Quotient);
+Quotient Quotient_mod(Quotient, Quotient);
+int Quotient_idiv(Quotient, Quotient);
 
 bool Quotient_equal(Quotient, Quotient);
 bool Quotient_not_equal(Quotient, Quotient);
@@ -65,8 +74,23 @@ Number Number_inv(Number);
 Number Number_neg(Number);
 Number Number_mult(Number, Number);
 
+/*
+ * Following rule for result. See `https://www.w3.org/TR/xpath-functions/#func-numeric-integer-divide`_
+ */
+int Number_idiv(Number, Number);
+
+/*
+ * See `https://www.w3.org/TR/xpath-functions/#func-numeric-mod`_
+ */
+Number Number_mod(Number, Number);
+
+
 bool Number_equal(Number, Number);
 bool Number_not_equal(Number, Number);
+bool Number_less(Number left, Number right);
+bool Number_less_or_equal(Number left, Number right);
+bool Number_greater(Number left, Number right);
+bool Number_greater_or_equal(Number left, Number right);
 
 
 Decimal Decimal_new(int64_t significand, int32_t exponent);

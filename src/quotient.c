@@ -1,6 +1,6 @@
 #include "AdvancedCDatatypesDecimal.h"
 
-static int find_gcd(int a, int b);
+static int64_t find_gcd(int64_t a, int64_t b);
 static Quotient Quotient_normalize(Quotient);
 
 Quotient Quotient_new(int64_t numerator, int64_t denominator){
@@ -78,6 +78,41 @@ double Quotient_to_float(Quotient x){
 }
 
 
+Quotient Quotient_mod(Quotient x, Quotient y){
+	int64_t qx, qy, lcm, tmp, gcd;
+	gcd = find_gcd(x.denominator, y.denominator);
+	lcm = x.denominator * (y.denominator / gcd);
+	qx = x.numerator * (y.denominator / gcd);
+	qy = y.numerator * (x.denominator / gcd);
+	tmp = qx % qy;
+	return Quotient_new(tmp, lcm);
+}
+
+
+int Quotient_idiv(Quotient x, Quotient y){
+	int ret;
+	bool is_positive = true;
+	x.numerator *= y.denominator;
+	x.denominator *= y.numerator;
+	if (x.numerator < 0){
+		is_positive = !is_positive;
+		x.numerator = -x.numerator;
+	}
+	if (x.denominator < 0){
+		is_positive = !is_positive;
+		x.denominator = -x.denominator;
+	}
+	//integer division works as floor(x/y)
+	ret = x.numerator / x.denominator;
+	if (is_positive){
+		return ret;
+	} else {
+		return -ret;
+	}
+}
+
+
+
 static Quotient Quotient_normalize(Quotient x){
 	int gcd = find_gcd(x.numerator, x.denominator);
 	x.numerator /= gcd;
@@ -89,10 +124,12 @@ static Quotient Quotient_normalize(Quotient x){
 	return x;
 }
 
+
 /**
+ * greatest common divisor
  * Euclidean Algorithm
  */
-static int find_gcd(int a, int b)
+static int64_t find_gcd(int64_t a, int64_t b)
 {
 	if (a < 0){
 		a = -a;
@@ -101,10 +138,13 @@ static int find_gcd(int a, int b)
 		b = -b;
 	}
 	for(int i=0; i < 10000; i++){
-		if (a == 0) return b;
-		if (b == 0) return a;
-		if (a == b) return a;
-		if (a > b){
+		if (a == 0) {
+			return b;
+		} else if (b == 0) {
+			return a;
+		} else if (a == b) {
+			return a;
+		} else if (a > b) {
 			a = a-b;
 		} else {
 			b = b-a;

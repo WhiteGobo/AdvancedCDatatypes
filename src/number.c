@@ -52,46 +52,33 @@ Number Number_div(Number x, Number y){
 	Number ret;
 	Quotient qx, qy;
 	Decimal tmpd;
-	fprintf(stderr, "numberdiv1\n");
 	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
 		ret.type = NT_FLOAT;
 		ret.f = Number_as_float(x) / Number_as_float(y);
-	fprintf(stderr, "numberdiv2\n");
 		return ret;
 	}
-	fprintf(stderr, "numberdiv3\n");
 	switch (x.type){
 		case NT_DECIMAL:
-	fprintf(stderr, "numberdiv4\n");
 			qx = Decimal_as_quotient(x.d);
 			break;
 		case NT_QUOTIENT:
-	fprintf(stderr, "numberdiv5\n");
 			qx = x.q;
 			break;
 	}
 	switch (y.type){
 		case NT_DECIMAL:
-	fprintf(stderr, "numberdiv6\n");
 			qy = Decimal_as_quotient(y.d);
 			break;
 		case NT_QUOTIENT:
-	fprintf(stderr, "numberdiv7\n");
 			qy = y.q;
 			break;
 	}
-	fprintf(stderr, "ss1 ");
-	fprintf_Quotient(stderr, qx);
-	fprintf(stderr, "ss2 ");
-	fprintf_Quotient(stderr, qy);
-	fprintf(stderr, "\n");
+	ret.type = NT_QUOTIENT;
 	ret.q = Quotient_div(qx, qy);
 	tmpd = Quotient_try_to_decimal(ret.q);
 	if (Decimal_not_equal(tmpd, DECIMAL_NAN)){
 		ret.type = NT_DECIMAL;
 		ret.d = tmpd;
-	} else {
-		ret.type = NT_QUOTIENT;
 	}
 	return ret;
 }
@@ -123,29 +110,20 @@ bool Number_equal(Number x, Number y){
 	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
 		return false;
 	}
-	fprintf(stderr, "number_equal1\n");
 	if (x.type == NT_DECIMAL && y.type == NT_QUOTIENT){
-	fprintf(stderr, "number_equal2\n");
 		tmpd = Quotient_try_to_decimal(y.q);
 		if (Decimal_equal(tmpd, DECIMAL_NAN)){
 			return false;
-	fprintf(stderr, "number_equal3\n");
 		}
-	fprintf(stderr, "number_equal4\n");
 		return Decimal_equal(tmpd, x.d);
 	}
-	fprintf(stderr, "number_equal5\n");
 	if (y.type == NT_DECIMAL && x.type == NT_QUOTIENT){
 		tmpd = Quotient_try_to_decimal(x.q);
-	fprintf(stderr, "number_equal6\n");
 		if (Decimal_equal(tmpd, DECIMAL_NAN)){
-	fprintf(stderr, "number_equal7\n");
 			return false;
 		}
-	fprintf(stderr, "number_equal8\n");
 		return Decimal_equal(tmpd, y.d);
 	}
-	fprintf(stderr, "number_equal9\n");
 	return false;
 }
 
@@ -165,6 +143,69 @@ Number Number_neg(Number x){
 			x.q = Quotient_neg(x.q);
 			return x;
 	}
+}
+
+
+int Number_idiv(Number x, Number y){
+	Number ret;
+	Quotient qx, qy;
+	Decimal tmpd;
+	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
+		return Number_as_float(x) / Number_as_float(y);
+	}
+	switch (x.type){
+		case NT_DECIMAL:
+			qx = Decimal_as_quotient(x.d);
+			break;
+		case NT_QUOTIENT:
+			qx = x.q;
+			break;
+	}
+	switch (y.type){
+		case NT_DECIMAL:
+			qy = Decimal_as_quotient(y.d);
+			break;
+		case NT_QUOTIENT:
+			qy = y.q;
+			break;
+	}
+	return Quotient_idiv(qx, qy);
+}
+
+
+Number Number_mod(Number x, Number y){
+	Number ret;
+	Quotient qx, qy;
+	Decimal tmpd;
+	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
+		ret.type = NT_FLOAT;
+		ret.f = fmod(Number_as_float(x), Number_as_float(y));
+		return ret;
+	}
+	switch (x.type){
+		case NT_DECIMAL:
+			qx = Decimal_as_quotient(x.d);
+			break;
+		case NT_QUOTIENT:
+			qx = x.q;
+			break;
+	}
+	switch (y.type){
+		case NT_DECIMAL:
+			qy = Decimal_as_quotient(y.d);
+			break;
+		case NT_QUOTIENT:
+			qy = y.q;
+			break;
+	}
+	ret.type = NT_QUOTIENT;
+	ret.q = Quotient_mod(qx, qy);
+	tmpd = Quotient_try_to_decimal(ret.q);
+	if (Decimal_not_equal(tmpd, DECIMAL_NAN)){
+		ret.type = NT_DECIMAL;
+		ret.d = tmpd;
+	}
+	return ret;
 }
 
 
