@@ -323,6 +323,33 @@ Number Number_mod(Number x, Number y){
 	return ret;
 }
 
+int64_t Number_round(Number x){
+	double val;
+	switch(x.type){
+		case NT_DECIMAL:
+			return Decimal_round(x.d);
+		case NT_FLOAT:
+			val = x.f;
+			break;
+		case NT_QUOTIENT:
+			val = Quotient_to_float(x.q);
+			break;
+	}
+	val = round(val);
+	return val;
+}
+
+bool Number_is_int(Number x){
+	switch(x.type){
+		case NT_FLOAT:
+			return false;
+		case NT_DECIMAL:
+			return Decimal_is_int(x.d);
+		case NT_QUOTIENT:
+			return x.q.denominator != 1;
+	}
+}
+
 
 void fprintf_Number(FILE* f, Number n){
 	char* tmp;

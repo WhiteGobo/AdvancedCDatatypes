@@ -90,6 +90,12 @@ int Number_idiv(Number, Number);
 Number Number_mod(Number, Number);
 
 
+int64_t Number_round(Number);
+/*
+ * If true use Number_round to get value as int.
+ */
+bool Number_is_int(Number);
+
 bool Number_equal(Number, Number);
 bool Number_not_equal(Number, Number);
 bool Number_less(Number left, Number right);
@@ -121,6 +127,8 @@ int64_t Decimal_floor(Decimal);
 int64_t Decimal_round(Decimal);
 Decimal Decimal_truncate(Decimal, int64_t exponent_cut);
 Decimal Decimal_negate(Decimal);
+
+bool Decimal_is_int(Decimal);
 
 Decimal Decimal_parse(const char*, int32_t len);
 char* Decimal_serialize(Decimal);

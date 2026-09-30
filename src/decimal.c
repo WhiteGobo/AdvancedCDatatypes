@@ -173,6 +173,15 @@ int64_t Decimal_floor(Decimal x){
 	}
 }
 
+bool Decimal_is_int(Decimal x){
+	/*
+	if(x.exponent == -1000){
+		return false;
+	}
+	*/
+	return x.exponent >= 0;
+}
+
 int64_t Decimal_round(Decimal x){
 	int tmp;
 	if(x.exponent == -1000){
