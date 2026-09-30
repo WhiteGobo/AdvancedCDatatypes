@@ -2,6 +2,9 @@
 
 /*
  *
+ * Describe Promotion in Number_operation as described in 
+ * `https://www.w3.org/TR/xpath-functions/#op.numeric`_
+ *
  * TODO: Rename Number to Numeric
  */
 

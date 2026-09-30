@@ -169,18 +169,20 @@ Number Number_inv(Number){
 
 bool Number_equal(Number x, Number y){
 	Decimal tmpd;
+	double fx, fy;
+	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
+		fx = Number_as_float(x);
+	       	fy = Number_as_float(y);
+		//TODO: do something on NAN
+		return fx == fy;
+	}
 	if (x.type == y.type){
 		switch (x.type){
-			case NT_FLOAT:
-				return x.f == y.f;
 			case NT_DECIMAL:
 				return Decimal_equal(x.d, y.d);
 			case NT_QUOTIENT:
 				return Quotient_equal(x.q, y.q);
 		}
-	}
-	if (x.type == NT_FLOAT || y.type == NT_FLOAT){
-		return false;
 	}
 	if (x.type == NT_DECIMAL && y.type == NT_QUOTIENT){
 		tmpd = Quotient_try_to_decimal(y.q);
