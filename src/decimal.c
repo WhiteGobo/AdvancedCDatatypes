@@ -187,7 +187,10 @@ int64_t Decimal_round(Decimal x){
 	if(x.exponent == -1000){
 		return 0;
 	}
-	if (x.exponent <= 0 ){
+	if (x.exponent < 0 ){
+		Quotient tmpq = Decimal_as_quotient(x);
+		return Quotient_round(tmpq);
+		/*
 		for (int32_t i=0; i > x.exponent+1 && x.significand != 0; i--){
 			x.significand /= 10;
 		}
@@ -195,6 +198,7 @@ int64_t Decimal_round(Decimal x){
 		tmp = x.significand % 2;
 		x.significand = x.significand/2;
 		return x.significand + tmp;
+		*/
 	} else {
 		for (int32_t i=0; i < x.exponent; i++){
 			x.significand *= 10;

@@ -58,6 +58,7 @@ Quotient Quotient_div(Quotient, Quotient);
 Quotient Quotient_add(Quotient, Quotient);
 Quotient Quotient_inv(Quotient);
 Quotient Quotient_neg(Quotient);
+int64_t Quotient_round(Quotient);
 Quotient Quotient_mult(Quotient, Quotient);
 Quotient Quotient_mod(Quotient, Quotient);
 int Quotient_idiv(Quotient, Quotient);
@@ -65,6 +66,7 @@ int Quotient_idiv(Quotient, Quotient);
 bool Quotient_equal(Quotient, Quotient);
 bool Quotient_not_equal(Quotient, Quotient);
 bool Quotient_less(Quotient, Quotient);
+bool Quotient_less_or_equal(Quotient, Quotient);
 
 Decimal Number_truncate(Number, int64_t exponent_cut);
 double Number_as_float(Number);

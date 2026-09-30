@@ -21,6 +21,41 @@ bool Quotient_less(Quotient x, Quotient y){
 	return qx < qy;
 }
 
+bool Quotient_less_or_equal(Quotient x, Quotient y){
+	int64_t qx, qy, gcd;
+	if (Quotient_equal(x, y)){
+		return true;
+	}
+	gcd = find_gcd(x.denominator, y.denominator);
+	qx = x.numerator * (y.denominator / gcd);
+	qy = y.numerator * (x.denominator / gcd);
+	return qx < qy;
+}
+
+static int64_t Quotient_floor(Quotient x){
+	return x.numerator / x.denominator;
+}
+
+int64_t Quotient_round(Quotient x){
+	int64_t ret;
+	Quotient after_comma = Quotient_mod(x, Quotient_new(1,1));
+	ret = Quotient_floor(x);
+	if (Quotient_less(x, Quotient_new(0,1))){
+		if (Quotient_less(after_comma, Quotient_new(-1,2))){
+			return ret - 1;
+		} else {
+			return ret;
+		}
+	} else {
+		if (Quotient_less(after_comma, Quotient_new(1,2))){
+			return ret;
+		} else {
+			return ret + 1;
+		}
+	}
+	
+}
+
 Quotient Quotient_new(int64_t numerator, int64_t denominator){
 	Quotient ret;
 	ret.numerator = numerator;
