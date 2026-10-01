@@ -15,6 +15,18 @@ Quotient Quotient_add(Quotient x, Quotient y){
 }
 bool Quotient_less(Quotient x, Quotient y){
 	int64_t qx, qy, gcd;
+	/*
+	//convertion to double is faster but may fail at x~=y
+	double fx = x.numerator / x.denominator;
+	double fy = y.numerator / y.denominator;
+	if (fx < fy){
+		return true;
+	} else if (fx > fy){
+		return false;
+	}
+	*/
+
+	//expand fractions to least common multiple
 	gcd = find_gcd(x.denominator, y.denominator);
 	qx = x.numerator * (y.denominator / gcd);
 	qy = y.numerator * (x.denominator / gcd);
