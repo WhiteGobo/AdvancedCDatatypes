@@ -99,3 +99,15 @@ foreach(inputstring IN ITEMS
 	)
 	math(EXPR index "${index}+1")
 endforeach()
+
+set(testexe "test_posix_get_current_timezone")
+add_executable(${testexe}
+	test_posix_get_current_timezone.c
+)
+add_test(NAME "${testsuffix}posix_get_current_timezone"
+	COMMAND ${testexe}
+)
+target_link_libraries(${testexe}
+	AdvancedCDatatypes
+	GetCurrentTimezonePosixA
+)

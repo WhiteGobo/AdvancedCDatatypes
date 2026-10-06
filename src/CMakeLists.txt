@@ -20,3 +20,5 @@ target_include_directories(AdvancedCDatatypes PUBLIC
 target_link_libraries(AdvancedCDatatypes PRIVATE
 	${MATH_LIBRARY}
 )
+
+add_subdirectory(get_localtime_libraries)
