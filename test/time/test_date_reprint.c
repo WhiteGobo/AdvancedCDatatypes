@@ -18,13 +18,15 @@ int main(int argc, char *argv[]){
 	tmpstring = Date_serialize(x);
 	fprintf(stderr, "Plain print of '%s': %s\n", reprint, tmpstring);
 	y = Date_parse(tmpstring);
+	free(tmpstring);
 	if (Date_equal(y, DATE_NOTVALID)){
 		fprintf(stderr, "reprint isnt valid datetime\n");
 		exit(EXIT_FAILURE);
 	}
 	if (!Date_equal(x, y)){
-		fprintf(stderr, "Failed to reprint %s. Got instead: %s\n",
-				reprint, tmpstring);
+		fprintf(stderr, "Failed to reprint %s. Got instead: ",reprint);
+		fprintf_Date(stderr, x);
+		fprintf(stderr, "\n");
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);

@@ -10,17 +10,20 @@ static Date Date_normalize(Date);
 
 #define REGDATE "^(\\-?[0-9]+)-([0-9]+)-([0-9]+)"\
 	"(Z)?([-+]?([0-9]+):([0-9]+))?$"
+//Needed matches are '(' + 1
+#define REGDATE_NEEDED_MATCHES 8
 
 Date Date_parse(const char* input){
 	Date ret;
 	int err, tmpi;
-	regmatch_t matches[15];
+	regmatch_t matches[REGDATE_NEEDED_MATCHES];
 	regex_t reg_datetime;
 	err = regcomp(&reg_datetime, REGDATE, REG_EXTENDED);
 	if (err != 0){
 		return DATE_NOTVALID;
 	}
-	err = regexec(&reg_datetime, input, 15, matches, 0);
+	err = regexec(&reg_datetime, input, REGDATE_NEEDED_MATCHES, matches, 0);
+	regfree(&reg_datetime);
 	if (err != 0){
 		return DATE_NOTVALID;
 	}
@@ -31,7 +34,7 @@ Date Date_parse(const char* input){
 		ret.offset_minutes = 0;
 	} else if (matches[5].rm_so >= 0){
 		tmpi = 60 * strtol(input + matches[6].rm_so, NULL, 10);
-		tmpi += strtol(input + matches[8].rm_so, NULL, 10);
+		tmpi += strtol(input + matches[7].rm_so, NULL, 10);
 		switch(input[matches[5].rm_so]){
 			case '-':
 				ret.offset_minutes = -tmpi;
@@ -310,4 +313,14 @@ bool Date_greater(Date x, Date y){
 
 bool Date_greater_or_equal(Date x, Date y){
 	return !Date_less(x, y);
+}
+
+void fprintf_Date(FILE* f, Date x){
+	char* tmpstring = Date_serialize(x);
+	if(tmpstring != NULL){
+		fprintf(f, "%s", tmpstring);
+		free(tmpstring);
+	} else {
+		fprintf(f, "Date_not_valid");
+	}
 }

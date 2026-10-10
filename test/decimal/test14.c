@@ -3,7 +3,6 @@
 #include "AdvancedCDatatypesDecimal.h"
 
 int main(int argc, char *argv[]){
-	char* tmpstring;
 	Number x, y, result, expect;
 	x = Number_from_decimal(Decimal_parse("5", -1));
 	y = Number_from_decimal(Decimal_parse("3", -1));

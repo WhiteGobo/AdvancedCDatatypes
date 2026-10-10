@@ -18,13 +18,15 @@ int main(int argc, char *argv[]){
 	tmpstring = Time_serialize(x);
 	fprintf(stderr, "Plain print of '%s': %s\n", reprint, tmpstring);
 	y = Time_parse(tmpstring);
+	free(tmpstring);
 	if (Time_equal(y, TIME_NOTVALID)){
 		fprintf(stderr, "reprint isnt valid time\n");
 		exit(EXIT_FAILURE);
 	}
 	if (!Time_equal(x, y)){
-		fprintf(stderr, "Failed to reprint %s. Got instead: %s\n",
-				reprint, tmpstring);
+		fprintf(stderr, "Failed to reprint %s. Got instead: ", reprint);
+		fprintf_Time(stderr, y);
+		fprintf(stderr, "\n");
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);

@@ -14,7 +14,9 @@ int main(int argc, char *argv[]){
 	if (!Decimal_equal(x, y)){
 		fprintf(stderr, "Failed to reprint %s. Got instead: %s\n",
 				reprint, tmpstring);
+		free(tmpstring);
 		exit(EXIT_FAILURE);
 	}
+	free(tmpstring);
 	exit(EXIT_SUCCESS);
 }

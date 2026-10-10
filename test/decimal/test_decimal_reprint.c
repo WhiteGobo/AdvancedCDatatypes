@@ -18,13 +18,14 @@ int main(int argc, char *argv[]){
 	tmpstring = Decimal_serialize(x);
 	fprintf(stderr, "Plain print of '%s': %s\n", reprint, tmpstring);
 	y = Decimal_parse(tmpstring, -1);
+	free(tmpstring);
 	if (Decimal_equal(y, DECIMAL_NAN)){
 		fprintf(stderr, "reprint isnt valid decimal\n");
 		exit(EXIT_FAILURE);
 	}
 	if (!Decimal_equal(x, y)){
-		fprintf(stderr, "Failed to reprint %s. Got instead: %s\n",
-				reprint, tmpstring);
+		fprintf(stderr, "Failed to reprint %s. Got instead: \n",
+				reprint );
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);

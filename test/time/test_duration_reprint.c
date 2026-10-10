@@ -22,13 +22,15 @@ int main(int argc, char *argv[]){
 	tmpstring = Duration_serialize(x);
 	fprintf(stderr, "Plain print of '%s': %s\n", reprint, tmpstring);
 	y = Duration_parse(tmpstring);
+	free(tmpstring);
 	if (Duration_equal(y, DURATION_NAN)){
 		fprintf(stderr, "reprint isnt valid duration\n");
 		exit(EXIT_FAILURE);
 	}
 	if (!Duration_equal(x, y)){
-		fprintf(stderr, "Failed to reprint %s. Got instead: %s\n",
-				reprint, tmpstring);
+		fprintf(stderr, "Failed to reprint %s. Got instead: ", reprint);
+		fprintf_Duration(stderr, x);
+		fprintf(stderr, "\n");
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);

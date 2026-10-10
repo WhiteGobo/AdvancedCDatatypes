@@ -9,19 +9,21 @@
 #define REGTIME "^([0-9]+):([0-9]+):"\
 	"(([0-9]+)?(\\.[0-9]+)?)"\
 	"(Z)?([-+]?([0-9]+):([0-9]+))?$"
+//Needed matches are '(' + 1
+#define REGTIME_NEEDED_MATCHES 10
 
 static Decimal Time_to_seconds(Time);
 
 Time Time_parse(const char* input){
 	Time ret;
 	int err, tmpi;
-	regmatch_t matches[15];
+	regmatch_t matches[REGTIME_NEEDED_MATCHES];
 	regex_t reg_datetime;
 	err = regcomp(&reg_datetime, REGTIME, REG_EXTENDED);
 	if (err != 0){
 		return TIME_NOTVALID;
 	}
-	err = regexec(&reg_datetime, input, 15, matches, 0);
+	err = regexec(&reg_datetime, input, REGTIME_NEEDED_MATCHES, matches, 0);
 	regfree(&reg_datetime);
 	if (err != 0){
 		return TIME_NOTVALID;
@@ -33,11 +35,15 @@ Time Time_parse(const char* input){
 	if (matches[6].rm_so >= 0){
 		ret.offset_minutes = 0;
 	} else if (matches[7].rm_so >= 0){
-		fprintf(stderr, "offset minutes found:\n%s\n%s\n",
-				input + matches[7].rm_so, input + matches[9].rm_so);
-		tmpi = 60 * strtol(input + matches[7].rm_so, NULL, 10);
+		tmpi = 60 * strtol(input + matches[8].rm_so, NULL, 10);
 		tmpi += strtol(input + matches[9].rm_so, NULL, 10);
-		ret.offset_minutes = tmpi;
+		switch(input[matches[7].rm_so]){
+			case '-':
+				ret.offset_minutes = -tmpi;
+				break;
+			default:
+				ret.offset_minutes = tmpi;
+		}
 	} else {
 		ret.offset_minutes = DATETIME_NOOFFSET;
 	}
@@ -210,6 +216,10 @@ static Decimal Time_to_seconds(Time x){
 
 void fprintf_Time(FILE* f, Time x){
 	char* tmpstring = Time_serialize(x);
-	fprintf(f, "%s", tmpstring);
-	free(tmpstring);
+	if(tmpstring != NULL){
+		fprintf(f, "%s", tmpstring);
+		free(tmpstring);
+	} else {
+		fprintf(f, "Time_not_valid");
+	}
 }

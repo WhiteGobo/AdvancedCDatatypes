@@ -8,6 +8,7 @@ int main(int argc, char *argv[]){
 	Duration dur1;
 
 	dt1 = DateTime_parse("2000-12-13T00:11:11.3");
+	dt3 = DateTime_parse("1999-11-11T23:10:10.2");
 	dur1 = Duration_parse("-P1Y1M1DT1H1M1.1S");
 	fprintf(stderr, "To '2000-12-13T00:11:11.3' add '-P1Y1M1DT1H1M1.1S'\n");
 	dt2 = DateTime_add(dt1, dur1);
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]){
 		fprintf(stderr, "Add produced non valid DateTime\n");
 		exit(EXIT_FAILURE);
 	}
-	if (DateTime_equal(dt2, dt3)){
+	if (!DateTime_equal(dt2, dt3)){
 		fprintf(stderr, "Add failed to produced correct datetime\n");
 		exit(EXIT_FAILURE);
 	}

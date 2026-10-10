@@ -20,17 +20,19 @@ static DateTime DateTime_normalize(DateTime);
 	"T([0-9]+):([0-9]+):"\
 	"(([0-9]+)?(\\.[0-9]+)?)"\
 	"(Z)?([-+]?([0-9]+):([0-9]+))?$"
+//Needed matches are number of '(' + 1
+#define REGDATETIME_NEEDED_MATCHES 13
 
 DateTime DateTime_parse(const char* input){
 	DateTime ret;
 	int err, tmpi;
-	regmatch_t matches[15];
+	regmatch_t matches[REGDATETIME_NEEDED_MATCHES];
 	regex_t reg_datetime;
 	err = regcomp(&reg_datetime, REGDATETIME, REG_EXTENDED);
 	if (err != 0){
 		return DATETIME_NOTVALID;
 	}
-	err = regexec(&reg_datetime, input, 15, matches, 0);
+	err = regexec(&reg_datetime, input, REGDATETIME_NEEDED_MATCHES, matches, 0);
 	regfree(&reg_datetime);
 	if (err != 0){
 		return DATETIME_NOTVALID;
@@ -46,7 +48,7 @@ DateTime DateTime_parse(const char* input){
 		ret.offset_minutes = 0;
 	} else if (matches[10].rm_so >= 0){
 		tmpi = 60 * strtol(input + matches[11].rm_so, NULL, 10);
-		tmpi += strtol(input + matches[13].rm_so, NULL, 10);
+		tmpi += strtol(input + matches[12].rm_so, NULL, 10);
 		switch(input[matches[10].rm_so]){
 			case '-':
 				ret.offset_minutes = -tmpi;
@@ -99,7 +101,11 @@ char* DateTime_serialize(DateTime dt){
 		sprintf(tmp, "-%d:%02d", tmphour, tmpminute);
 	}
 	free(tmpdec);
-	ret = malloc(strlen(rettmp) + 1);
+	ret = malloc(strlen(rettmp) + 2);
+	if (ret == NULL){
+		fprintf(stderr, "CRITICAL ERROR malloc failed\n");
+		return NULL;
+	}
 	strcpy(ret, rettmp);
 	return ret;
 }
@@ -291,4 +297,14 @@ bool DateTime_greater(DateTime x, DateTime y){
 
 bool DateTime_greater_or_equal(DateTime x, DateTime y){
 	return !DateTime_less(x, y);
+}
+
+void fprintf_DateTime(FILE* f, DateTime x){
+	char* tmpstring = DateTime_serialize(x);
+	if (tmpstring != NULL){
+		fprintf(f, "%s", tmpstring);
+		free(tmpstring);
+	} else {
+		fprintf(f, "DateTime_not_valid");
+	}
 }

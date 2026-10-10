@@ -35,7 +35,6 @@ Number Number_from_decimal(Decimal decimal){
 	Number ret;
 	ret.type = NT_DECIMAL;
 	ret.d = decimal;
-	char*q = Decimal_serialize(decimal);
 	return ret;
 }
 
