@@ -72,6 +72,7 @@ bool Quotient_less(Quotient, Quotient);
 bool Quotient_less_or_equal(Quotient, Quotient);
 
 Decimal Number_truncate(Number, int64_t exponent_cut);
+Decimal Number_truncate_relative(Number, double accuracy);
 double Number_as_float(Number);
 Number Number_new_quotient(int64_t numerator, int64_t denominator);
 Number Number_from_decimal(Decimal);

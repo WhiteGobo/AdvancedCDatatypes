@@ -347,7 +347,7 @@ bool Number_is_int(Number x){
 		case NT_DECIMAL:
 			return Decimal_is_int(x.d);
 		case NT_QUOTIENT:
-			return x.q.denominator != 1;
+			return x.q.denominator == 1;
 	}
 }
 

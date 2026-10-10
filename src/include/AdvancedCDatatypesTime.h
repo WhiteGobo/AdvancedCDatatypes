@@ -128,6 +128,9 @@ Duration Duration_mult(Duration, Decimal);
 Duration Duration_divide(Duration, Decimal);
 Number Duration_divide_by_Duration(Duration, Duration);
 
+bool Duration_is_dayTimeDuration(Duration);
+bool Duration_is_yearMonthDuration(Duration);
+
 int64_t Duration_get_years(Duration);
 int64_t Duration_get_months(Duration);
 int64_t Duration_get_days(Duration);
