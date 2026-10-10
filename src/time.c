@@ -22,6 +22,7 @@ Time Time_parse(const char* input){
 		return TIME_NOTVALID;
 	}
 	err = regexec(&reg_datetime, input, 15, matches, 0);
+	regfree(&reg_datetime);
 	if (err != 0){
 		return TIME_NOTVALID;
 	}

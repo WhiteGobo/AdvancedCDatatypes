@@ -37,6 +37,7 @@ Duration Duration_parse(const char* input){
 		return DURATION_NAN;
 	}
 	err = regexec(&reg_duration, input, 15, matches, 0);
+	regfree(&reg_duration);
 	if (err != 0){
 		return DURATION_NAN;
 	}
