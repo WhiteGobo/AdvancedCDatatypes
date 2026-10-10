@@ -24,6 +24,19 @@ double Number_as_float(Number x){
 	}
 }
 
+Decimal Number_try_to_decimal(Number x){
+	switch(x.type){
+		case NT_FLOAT:
+			return DECIMAL_NAN;
+		case NT_DECIMAL:
+			return x.d;
+		case NT_QUOTIENT:
+			return Quotient_try_to_decimal(x.q);
+		default:
+			return DECIMAL_NAN;
+	}
+}
+
 Number Number_new_quotient(int64_t numerator, int64_t denominator){
 	Number ret;
 	ret.type = NT_QUOTIENT;
