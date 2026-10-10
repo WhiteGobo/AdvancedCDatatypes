@@ -77,6 +77,9 @@ Duration Duration_parse(const char* input){
 
 
 bool Duration_equal(Duration x, Duration y){
+	if (x.is_positive != y.is_positive){
+		return false;
+	}
 	if (x.sum_months != y.sum_months){
 		return false;
 	}

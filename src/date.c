@@ -30,11 +30,15 @@ Date Date_parse(const char* input){
 	if (matches[4].rm_so >= 0){
 		ret.offset_minutes = 0;
 	} else if (matches[5].rm_so >= 0){
-		fprintf(stderr, "offset minutes found:\n%s\n%s\n",
-				input + matches[6].rm_so, input + matches[8].rm_so);
 		tmpi = 60 * strtol(input + matches[6].rm_so, NULL, 10);
 		tmpi += strtol(input + matches[8].rm_so, NULL, 10);
-		ret.offset_minutes = tmpi;
+		switch(input[matches[5].rm_so]){
+			case '-':
+				ret.offset_minutes = -tmpi;
+				break;
+			default:
+				ret.offset_minutes = tmpi;
+		}
 	} else {
 		ret.offset_minutes = DATETIME_NOOFFSET;
 	}
