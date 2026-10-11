@@ -5,14 +5,20 @@
 int main(int argc, char *argv[]){
 	int err = EXIT_SUCCESS;
 	char* tmp, *tmpstring;
-	DateTime dt1, dt2, dt3;
+	DateTime dt1, dt2, dt3, dt2_s;
 
 	dt1 = DateTime_parse("2002-04-01T12:00:00-01:00");
+	dt2_s = DateTime_parse("2002-04-02T12:00:00-01:00");
 	dt2 = DateTime_parse("2002-04-02T17:00:00+04:00");
 	dt3 = DateTime_parse("2002-04-03T12:00:00-01:00");
 
 	if (!DateTime_not_equal(dt1, dt2)){
 		fprintf(stderr, "DateTime not equal didnt work\n");
+		err = EXIT_FAILURE;
+	}
+	if (!DateTime_equal(dt2, dt2_s)){
+		fprintf(stderr, "DateTime equal didnt work for different "
+				"timezones\n");
 		err = EXIT_FAILURE;
 	}
 	if (!DateTime_less(dt1, dt2)){

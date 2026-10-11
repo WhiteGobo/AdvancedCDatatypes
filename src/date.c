@@ -101,9 +101,6 @@ bool Date_equal(Date x, Date y){
 	if(x.day != y.day){
 		return false;
 	}
-	if(x.offset_minutes != y.offset_minutes){
-		return false;
-	}
 	return true;
 }
 bool Date_not_equal(Date x, Date y){

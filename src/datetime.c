@@ -132,6 +132,13 @@ bool DateTime_not_equal(DateTime x, DateTime y){
 }
 
 bool DateTime_equal(DateTime x, DateTime y){
+	if(x.offset_minutes != y.offset_minutes){
+		Duration diff1 = DateTime_offset_as_duration(x);
+		Duration diff2 = DateTime_offset_as_duration(y);
+		diff1 = Duration_sub(diff1, diff2);
+		y = DateTime_add(y, diff1);
+		y.offset_minutes = x.offset_minutes;
+	}
 	if(x.year != y.year){
 		return false;
 	}
@@ -148,9 +155,6 @@ bool DateTime_equal(DateTime x, DateTime y){
 		return false;
 	}
 	if(Decimal_not_equal(x.seconds, y.seconds)){
-		return false;
-	}
-	if(x.offset_minutes != y.offset_minutes){
 		return false;
 	}
 	return true;

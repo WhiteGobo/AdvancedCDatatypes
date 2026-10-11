@@ -95,6 +95,13 @@ char* Time_serialize(Time time){
 
 
 bool Time_equal(Time x, Time y){
+	if(x.offset_minutes != y.offset_minutes){
+		Duration diff1 = Time_offset_as_duration(x);
+		Duration diff2 = Time_offset_as_duration(y);
+		diff1 = Duration_sub(diff1, diff2);
+		y = Time_add(y, diff1);
+		y.offset_minutes = x.offset_minutes;
+	}
 	if(x.hour != y.hour){
 		return false;
 	}
@@ -102,9 +109,6 @@ bool Time_equal(Time x, Time y){
 		return false;
 	}
 	if(Decimal_not_equal(x.seconds, y.seconds)){
-		return false;
-	}
-	if(x.offset_minutes != y.offset_minutes){
 		return false;
 	}
 	return true;
