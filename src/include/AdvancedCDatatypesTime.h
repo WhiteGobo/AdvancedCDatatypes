@@ -126,6 +126,7 @@ Duration Duration_add(Duration, Duration);
 Duration Duration_sub(Duration, Duration);
 Duration Duration_mult(Duration, Decimal);
 Duration Duration_divide(Duration, Decimal);
+Duration Duration_neg(Duration);
 Number Duration_divide_by_Duration(Duration, Duration);
 
 bool Duration_is_dayTimeDuration(Duration);

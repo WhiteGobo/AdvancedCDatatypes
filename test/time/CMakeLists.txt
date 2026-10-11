@@ -1,7 +1,7 @@
 set(testsuffix "AdvancedCDatatypes::Time::")
 
 
-foreach(x RANGE 33)
+foreach(x RANGE 34)
 	set(exename "test_Datatype_Time${x}")
 	add_executable(${exename}
 		"test${x}.c"

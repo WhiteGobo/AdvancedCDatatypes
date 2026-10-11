@@ -22,6 +22,7 @@ static const Decimal dzero = {
 	"(([0-9]+)?(.[0-9]+)?S)?"\
 	")?$"
 
+
 Duration Duration_parse(const char* input){
 	uint64_t tmp;
 	Decimal tmp_decimal;
@@ -276,6 +277,11 @@ Number Duration_divide_by_Duration(Duration dur1, Duration dur2){
 		return Number_neg(ret);
 	}
 	return ret;
+}
+
+Duration Duration_neg(Duration x){
+	x.is_positive = !x.is_positive;
+	return x;
 }
 
 int64_t Duration_get_years(Duration dur){
