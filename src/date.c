@@ -176,10 +176,20 @@ Duration Date_offset_as_duration(Date x){
 }
 
 Date Date_add(Date date, Duration dur){
+	Decimal tmp_d;
+	int64_t tmp_i;
 	date.month += Duration_get_months(dur);
 	date.year += Duration_get_years(dur);
 	date = Date_normalize(date);
-	date.day += Duration_get_days(dur);
+	tmp_i = Duration_get_days(dur);
+	date.day += tmp_i;
+
+	if (!dur.is_positive){
+		tmp_d = Decimal_from_int(tmp_i * 86400);
+		if(Decimal_less(tmp_d, dur.sum_seconds)){
+			date.day -= 1;
+		}
+	}
 	return Date_normalize(date);
 }
 

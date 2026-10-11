@@ -310,6 +310,7 @@ int64_t Duration_get_days(Duration dur){
 	}
 	return ret;
 }
+
 int64_t Duration_get_hours(Duration dur){
 	int64_t ret = Decimal_floor(dur.sum_seconds);
 	ret = (ret / 3600) % 24;
