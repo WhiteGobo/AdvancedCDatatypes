@@ -66,7 +66,7 @@ char* DateTime_serialize(DateTime dt){
 	char rettmp[50];
 	char* ret, *tmpdec, *tmp;
 	int tmpi, tmphour, tmpminute;
-	if(DateTime_equal(dt, DATETIME_NOTVALID)){
+	if(!DateTime_is_valid(dt)){
 		return NULL;
 	}
 
@@ -112,7 +112,7 @@ char* DateTime_serialize(DateTime dt){
 
 DateTime DateTime_add(DateTime dt, Duration dur){
 	if (
-			DateTime_equal(dt, DATETIME_NOTVALID)
+			!DateTime_is_valid(dt)
 			|| Duration_equal(dur, DURATION_NAN)
 	) {
 		return DATETIME_NOTVALID;
@@ -129,6 +129,13 @@ DateTime DateTime_add(DateTime dt, Duration dur){
 
 bool DateTime_not_equal(DateTime x, DateTime y){
 	return !DateTime_equal(x, y);
+}
+
+bool DateTime_is_valid(DateTime x){
+	if(x.year == DATETIME_NOTVALID.year){
+		return false;
+	}
+	return true;
 }
 
 bool DateTime_equal(DateTime x, DateTime y){
@@ -175,7 +182,9 @@ static DateTime DateTime_normalize(DateTime dt){
 	dt.seconds = Decimal_add(dt.seconds, tmpd);
 
 	tmpi = dt.minute / 60;
-	if (tmpi < 0) tmpi -= 1;
+	if ((tmpi < 0) && (dt.minute % 60 != 0)){
+	       tmpi -= 1;
+	}
 	dt.minute -= tmpi * 60;
 	dt.hour += tmpi;
 
@@ -188,9 +197,6 @@ static DateTime DateTime_normalize(DateTime dt){
 	dt.year = tmpdate.year;
 	dt.month = tmpdate.month;
 	dt.day = tmpdate.day;
-	fprintf(stderr, "qq norm after: ");
-	fprintf_DateTime(stderr, dt);
-	fprintf(stderr, "\n");
 	return dt;
 }
 
@@ -280,15 +286,7 @@ bool DateTime_less(DateTime first, DateTime second){
 		return false;
 	}
 	Duration diff = DateTime_sub(first, second);
-	fprintf_Duration(stderr, diff);
-	fprintf(stderr, " < 0?\n");
-	bool q = Duration_less(diff, durzero);
-	if (q){
-		fprintf(stderr, "true\n");
-	} else {
-		fprintf(stderr, "false\n");
-	}
-	return q;
+	return Duration_less(diff, durzero);
 }
 
 

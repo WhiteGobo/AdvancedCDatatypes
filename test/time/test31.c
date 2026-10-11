@@ -8,8 +8,10 @@ int main(int argc, char *argv[]){
 	DateTime dt1, dt2, dt3, dt2_s;
 
 	dt1 = DateTime_parse("2002-04-01T12:00:00-01:00");
-	dt2_s = DateTime_parse("2002-04-02T12:00:00-01:00");
-	dt2 = DateTime_parse("2002-04-02T17:00:00+04:00");
+	dt2 = DateTime_parse("2002-04-02T12:00:00-01:00");
+        //dt2_s = DateTime_parse("2002-04-02T17:00:00+04:00");
+	//dt2 = DateTime_parse("2002-04-02T12:00:00-01:00");
+	dt2_s = DateTime_parse("2002-04-02T17:00:00+04:00");
 	dt3 = DateTime_parse("2002-04-03T12:00:00-01:00");
 
 	if (!DateTime_not_equal(dt1, dt2)){

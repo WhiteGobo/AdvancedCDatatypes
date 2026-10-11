@@ -76,6 +76,7 @@ bool DateTime_is_DateTimeStamp(DateTime);
 Duration DateTime_sub(DateTime, DateTime);
 DateTime DateTime_add(DateTime, Duration);
 
+bool DateTime_is_valid(DateTime);
 bool DateTime_equal(DateTime, DateTime);
 bool DateTime_not_equal(DateTime, DateTime);
 bool DateTime_less(DateTime, DateTime);
