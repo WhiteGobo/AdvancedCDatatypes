@@ -161,8 +161,11 @@ static DateTime DateTime_normalize(DateTime dt){
 	Decimal tmpd;
 	Decimal sixty = Decimal_from_int(60);
 	Date tmpdate;
-	tmpi = Decimal_floor(dt.seconds) / 60;
-	if (tmpi < 0) tmpi -= 1;
+	tmpi = Decimal_floor(dt.seconds);
+	if ((tmpi < 0) && (tmpi%60 != 0)){
+		tmpi -= 60;
+	}
+	tmpi /= 60;
 	dt.minute += tmpi;
 	tmpd = Decimal_from_int(tmpi * -60);
 	dt.seconds = Decimal_add(dt.seconds, tmpd);
@@ -181,6 +184,9 @@ static DateTime DateTime_normalize(DateTime dt){
 	dt.year = tmpdate.year;
 	dt.month = tmpdate.month;
 	dt.day = tmpdate.day;
+	fprintf(stderr, "qq norm after: ");
+	fprintf_DateTime(stderr, dt);
+	fprintf(stderr, "\n");
 	return dt;
 }
 

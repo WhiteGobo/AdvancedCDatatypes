@@ -2,26 +2,63 @@
 #include <stdio.h>
 #include "AdvancedCDatatypesTime.h"
 
+static bool qq(const char* input, const char* output, const char* dur);
+static bool qq_neg(const char* input, const char* output, const char* dur);
+
 int main(int argc, char *argv[]){
+	int err = EXIT_SUCCESS;
+	if(!qq("2000-12-13T00:11:11.3", "1999-11-11T23:10:10.2", "-P1Y1M1DT1H1M1.1S")){
+		err = EXIT_FAILURE;
+	}
+	if(!qq_neg("2000-10-30T11:12:00", "2000-10-27T09:57:00", "P3DT1H15M")){
+		err = EXIT_FAILURE;
+	}
+	exit(err);
+}
+
+static bool qq(const char* input, const char* output, const char* dur){
 	char* tmp, *tmpstring;
-	DateTime dt1, dt2, dt3;
+	DateTime x, y, z;
 	Duration dur1;
 
-	dt1 = DateTime_parse("2000-12-13T00:11:11.3");
-	dt3 = DateTime_parse("1999-11-11T23:10:10.2");
-	dur1 = Duration_parse("-P1Y1M1DT1H1M1.1S");
-	fprintf(stderr, "To '2000-12-13T00:11:11.3' add '-P1Y1M1DT1H1M1.1S'\n");
-	dt2 = DateTime_add(dt1, dur1);
-	tmpstring = DateTime_serialize(dt2);
-	fprintf(stderr, "Expect '1999-11-11T23:10:10.2'; got %s\n", tmpstring);
-	free(tmpstring);
-	if(DateTime_equal(dt2, DATETIME_NOTVALID)){
+	x = DateTime_parse(input);
+	y = DateTime_parse(output);
+	dur1 = Duration_parse(dur);
+	z = DateTime_add(x, dur1);
+	fprintf(stderr, "Try add %s + %s = %s\n", input, dur, output);
+	if(DateTime_equal(z, DATETIME_NOTVALID)){
 		fprintf(stderr, "Add produced non valid DateTime\n");
-		exit(EXIT_FAILURE);
+		return false;
 	}
-	if (!DateTime_equal(dt2, dt3)){
-		fprintf(stderr, "Add failed to produced correct datetime\n");
-		exit(EXIT_FAILURE);
+	if (!DateTime_equal(y, z)){
+		fprintf(stderr, "Add failed to produced correct datetime. Got ");
+		fprintf_DateTime(stderr, z);
+		fprintf(stderr, "\n");
+		return false;
 	}
-	exit(EXIT_SUCCESS);
+	return true;
+}
+
+static bool qq_neg(const char* input, const char* output, const char* dur){
+	char* tmp, *tmpstring;
+	DateTime x, y, z;
+	Duration dur1;
+
+	x = DateTime_parse(input);
+	y = DateTime_parse(output);
+	dur1 = Duration_parse(dur);
+	dur1 = Duration_neg(dur1);
+	z = DateTime_add(x, dur1);
+	fprintf(stderr, "Try %s - %s = %s\n", input, dur, output);
+	if(DateTime_equal(z, DATETIME_NOTVALID)){
+		fprintf(stderr, "Add produced non valid DateTime\n");
+		return false;
+	}
+	if (!DateTime_equal(y, z)){
+		fprintf(stderr, "Add failed to produced correct datetime. Got ");
+		fprintf_DateTime(stderr, z);
+		fprintf(stderr, "\n");
+		return false;
+	}
+	return true;
 }
