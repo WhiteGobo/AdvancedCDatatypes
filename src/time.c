@@ -160,16 +160,32 @@ Duration Time_sub(Time first, Time second){
 Time Time_add(Time time, Duration dur){
 	Time ret;
 	int64_t tmp;
-	if (dur.sum_months != 0){
-		return TIME_NOTVALID;
+	//if (dur.sum_months != 0){
+	//	return TIME_NOTVALID;
+	//}
+	if(dur.is_positive){
+		ret.seconds = Decimal_add(time.seconds, dur.sum_seconds);
+	} else {
+		ret.seconds = Decimal_sub(time.seconds, dur.sum_seconds);
 	}
-	ret.seconds = Decimal_add(time.seconds, dur.sum_seconds);
 	tmp = Decimal_floor(ret.seconds) / 60;
 	ret.seconds = Decimal_sub(ret.seconds, Decimal_from_int(tmp*60));
+	if (Decimal_less(ret.seconds, Decimal_from_int(0))){
+		tmp -= 1;
+		ret.seconds = Decimal_add(ret.seconds, Decimal_from_int(60));
+	}
 	ret.minute = time.minute + tmp;
 	tmp = ret.minute / 60;
 	ret.minute -= tmp * 60;
-	ret.hour = (ret.hour + tmp) % 24;
+	if (ret.minute < 0){
+		tmp -= 1;
+		ret.minute += 60;
+	}
+	ret.hour = (time.hour + tmp) % 24;
+	if (ret.hour < 0){
+		ret.hour += 24;
+	}
+	ret.offset_minutes = time.offset_minutes;
 	return ret;
 }
 
