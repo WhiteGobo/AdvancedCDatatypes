@@ -71,7 +71,7 @@ char* DateTime_serialize(DateTime dt){
 	}
 
 	tmpdec = Decimal_serialize_plain(dt.seconds);
-	sprintf(rettmp, "%d-%d-%dT%02d:%02d:",
+	sprintf(rettmp, "%d-%02d-%02dT%02d:%02d:",
 			dt.year, dt.month, dt.day, dt.hour, dt.minute);
 	tmp = rettmp + strlen(rettmp);
 	//seconds can only have values from 0 to <60

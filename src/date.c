@@ -56,7 +56,7 @@ char* Date_serialize(Date date){
 		return NULL;
 	}
 
-	sprintf(rettmp, "%d-%d-%d", date.year, date.month, date.day);
+	sprintf(rettmp, "%d-%02d-%02d", date.year, date.month, date.day);
 	tmp = rettmp + strlen(rettmp);
 	if(date.offset_minutes == DATETIME_NOOFFSET){
 	} else if (date.offset_minutes == 0){
