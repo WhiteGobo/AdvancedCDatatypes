@@ -189,7 +189,9 @@ static DateTime DateTime_normalize(DateTime dt){
 	dt.hour += tmpi;
 
 	tmpi = dt.hour / 24;
-	if (tmpi < 0) tmpi -= 1;
+	if (tmpi < 0 && (dt.hour % 24 != 0)){
+		tmpi -= 1;
+	}
 	dt.hour -= tmpi * 24;
 	dt.day += tmpi;
 

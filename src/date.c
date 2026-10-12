@@ -92,17 +92,26 @@ Date Date_new(int64_t year, int64_t month, int64_t day, int32_t offset_minutes){
 
 
 bool Date_equal(Date x, Date y){
-	if(x.year != y.year){
-		return false;
-	}
-	if(x.month != y.month){
-		return false;
-	}
-	if(x.day != y.day){
-		return false;
-	}
-	return true;
+	DateTime dt_x = {
+		.year = x.year,
+		.month = x.month,
+		.day = x.day,
+		.hour = 0,
+		.minute = 0,
+		.seconds = Decimal_from_int(0),
+		.offset_minutes = x.offset_minutes,
+	}, dt_y = {
+		.year = y.year,
+		.month = y.month,
+		.day = y.day,
+		.hour = 0,
+		.minute = 0,
+		.seconds = Decimal_from_int(0),
+		.offset_minutes = y.offset_minutes,
+	};
+	return DateTime_equal(dt_x, dt_y);
 }
+
 bool Date_not_equal(Date x, Date y){
 	return !Date_equal(x, y);
 }
