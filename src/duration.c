@@ -78,6 +78,13 @@ Duration Duration_parse(const char* input){
 }
 
 
+bool Duration_is_valid(Duration x){
+	if(x.sum_months == DURATION_NAN.sum_months){
+		return false;
+	}
+	return true;
+}
+
 bool Duration_equal(Duration x, Duration y){
 	if (x.is_positive != y.is_positive){
 		return false;

@@ -94,6 +94,14 @@ char* Time_serialize(Time time){
 }
 
 
+
+bool Time_is_valid(Time x){
+	if(x.hour == TIME_NOTVALID.hour){
+		return false;
+	}
+	return true;
+}
+
 bool Time_equal(Time x, Time y){
 	if(x.offset_minutes != y.offset_minutes){
 		Duration diff1 = Time_offset_as_duration(x);

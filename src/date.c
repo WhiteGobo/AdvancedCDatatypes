@@ -91,6 +91,13 @@ Date Date_new(int64_t year, int64_t month, int64_t day, int32_t offset_minutes){
 }
 
 
+bool Date_is_valid(Date x){
+	if(x.year == DATE_NOTVALID.year){
+		return false;
+	}
+	return true;
+}
+
 bool Date_equal(Date x, Date y){
 	DateTime dt_x = {
 		.year = x.year,

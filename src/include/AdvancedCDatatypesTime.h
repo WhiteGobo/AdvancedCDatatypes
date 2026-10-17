@@ -91,6 +91,7 @@ char* DateTime_serialize(DateTime);
 Duration Time_offset_as_duration(Time);
 Duration Time_sub(Time, Time);
 Time Time_add(Time, Duration);
+bool Time_is_valid(Time);
 bool Time_equal(Time, Time);
 bool Time_not_equal(Time, Time);
 bool Time_less(Time, Time);
@@ -109,6 +110,7 @@ Duration Date_offset_as_duration(Date);
 Date Date_add(Date, Duration);
 
 Duration Date_sub(Date, Date);
+bool Date_is_valid(Date);
 bool Date_equal(Date, Date);
 bool Date_not_equal(Date, Date);
 bool Date_less(Date, Date);
@@ -140,6 +142,7 @@ int64_t Duration_get_hours(Duration);
 int64_t Duration_get_minutes(Duration);
 Decimal Duration_get_seconds(Duration);
 
+bool Duration_is_valid(Duration);
 bool Duration_equal(Duration, Duration);
 bool Duration_not_equal(Duration, Duration);
 bool Duration_less(Duration, Duration);
