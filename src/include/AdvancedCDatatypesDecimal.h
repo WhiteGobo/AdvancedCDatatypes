@@ -137,6 +137,7 @@ Decimal Decimal_negate(Decimal);
 
 bool Decimal_is_int(Decimal);
 
+bool NAN_parse(const char*);
 Decimal Decimal_parse(const char*, int32_t len);
 char* Decimal_serialize(Decimal);
 char* Decimal_serialize_plain(Decimal);

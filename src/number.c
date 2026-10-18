@@ -1,6 +1,15 @@
 #include "AdvancedCDatatypesDecimal.h"
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
+
+bool NAN_parse(const char* input){
+	if (input == NULL) return false;
+	if(0 == strcmp(input, "NAN")){
+		return true;
+	}
+	return false;
+}
 
 Decimal Number_truncate(Number x, int64_t exponent_cut){
 	switch(x.type){
